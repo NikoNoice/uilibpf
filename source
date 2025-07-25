@@ -138,7 +138,7 @@ function Library:CreateWindow(Options)
     FeatureHolder.Position = UDim2.new(0.227, 0, 0.015, 0)
     FeatureHolder.Size = UDim2.new(0, 559, 0, 523)
     
-    -- Title
+    -- Title (will be updated by active page)
     local TextLabel = Instance.new("TextLabel")
     TextLabel.Parent = FeatureHolder
     TextLabel.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
@@ -147,7 +147,7 @@ function Library:CreateWindow(Options)
     TextLabel.BorderSizePixel = 0
     TextLabel.Size = UDim2.new(0, 200, 0, 25)
     TextLabel.Font = Enum.Font.Unknown
-    TextLabel.Text = Window.Name
+    TextLabel.Text = "Ambience"
     TextLabel.TextColor3 = Color3.fromRGB(191, 191, 191)
     TextLabel.TextSize = 22.000
     TextLabel.TextXAlignment = Enum.TextXAlignment.Left
@@ -231,7 +231,8 @@ function Library:CreateWindow(Options)
         ButtonHolder = ButtonHolder,
         TabNames = TabNames,
         LeftSection = LeftSection,
-        RightSection = RightSection
+        RightSection = RightSection,
+        Title = TextLabel
     }
     
     function Window:CreatePage(Options)
@@ -273,7 +274,7 @@ function Library:CreatePage(Window, Options)
     ButtonName.Font = Enum.Font.Unknown
     ButtonName.Text = "             " .. Page.Name
     ButtonName.TextColor3 = Color3.fromRGB(255, 255, 255)
-    ButtonName.TextSize = 16.000
+    ButtonName.TextSize = 13.000
     ButtonName.TextXAlignment = Enum.TextXAlignment.Left
     
     local Icon = Instance.new("ImageLabel")
@@ -349,6 +350,8 @@ function Library:CreatePage(Window, Options)
         
         if State then
             Library.CurrentPage = Page
+            -- Update window title to show active page
+            Page.Window.Elements.Title.Text = Page.Name
         end
     end
     
@@ -451,8 +454,8 @@ function Library:CreateSection(Page, Options)
     Shadow.BackgroundColor3 = Color3.fromRGB(27, 31, 36)
     Shadow.BorderColor3 = Color3.fromRGB(0, 0, 0)
     Shadow.BorderSizePixel = 0
-    Shadow.Position = UDim2.new(0, 0, 0.99, 0)
-    Shadow.Size = UDim2.new(0, 270, 0, 1)
+    Shadow.Position = UDim2.new(0, 0, 1, -1)
+    Shadow.Size = UDim2.new(1, 0, 0, 1)
     Shadow.ZIndex = 0
     
     local ShadowCorner = Instance.new("UICorner")
@@ -531,7 +534,7 @@ function Library:CreateToggle(Section, Options)
     ToggleName.Font = Enum.Font.Unknown
     ToggleName.Text = "   " .. Toggle.Name
     ToggleName.TextColor3 = Color3.fromRGB(249, 249, 249)
-    ToggleName.TextSize = 17.000
+    ToggleName.TextSize = 13.000
     ToggleName.TextXAlignment = Enum.TextXAlignment.Left
     
     -- Toggle switch
@@ -593,19 +596,19 @@ function Library:CreateToggle(Section, Options)
         Library.Flags[Toggle.Flag] = Value
         
         if Value then
-            self:Tween(ToggleFrame, {BackgroundColor3 = Color3.fromRGB(67, 111, 194)}, 0.25)
-            self:Tween(ToggleHead, {
+            Library:Tween(ToggleFrame, {BackgroundColor3 = Color3.fromRGB(67, 111, 194)}, 0.25):Play()
+            Library:Tween(ToggleHead, {
                 BackgroundColor3 = Library.Accent,
                 Position = UDim2.new(0.5, 3, 0.143, 0),
                 Size = UDim2.new(0, 15, 0, 15)
-            }, 0.25)
+            }, 0.25):Play()
         else
-            self:Tween(ToggleFrame, {BackgroundColor3 = Color3.fromRGB(122, 122, 122)}, 0.25)
-            self:Tween(ToggleHead, {
+            Library:Tween(ToggleFrame, {BackgroundColor3 = Color3.fromRGB(122, 122, 122)}, 0.25):Play()
+            Library:Tween(ToggleHead, {
                 BackgroundColor3 = Color3.fromRGB(197, 197, 197),
                 Position = UDim2.new(0.1, 0, 0.19, 0),
                 Size = UDim2.new(0, 13, 0, 13)
-            }, 0.25)
+            }, 0.25):Play()
         end
         
         Toggle.Callback(Value)
@@ -659,7 +662,7 @@ function Library:CreateSlider(Section, Options)
     SliderName.Font = Enum.Font.Unknown
     SliderName.Text = "   " .. Slider.Name
     SliderName.TextColor3 = Color3.fromRGB(249, 249, 249)
-    SliderName.TextSize = 17.000
+    SliderName.TextSize = 13.000
     SliderName.TextXAlignment = Enum.TextXAlignment.Left
     
     -- Slider background
@@ -721,8 +724,8 @@ function Library:CreateSlider(Section, Options)
         
         local Percentage = (NewValue - Slider.Min) / (Slider.Max - Slider.Min)
         
-        self:Tween(SliderFill, {Size = UDim2.new(Percentage, 0, 1, 0)}, 0.1)
-        self:Tween(SliderHead, {Position = UDim2.new(Percentage, -7, -2, 0)}, 0.1)
+        Library:Tween(SliderFill, {Size = UDim2.new(Percentage, 0, 1, 0)}, 0.1):Play()
+        Library:Tween(SliderHead, {Position = UDim2.new(Percentage, -7, -2, 0)}, 0.1):Play()
         
         Value.Text = tostring(NewValue) .. Slider.Suffix
         Slider.Callback(NewValue)
@@ -808,7 +811,7 @@ function Library:CreateDropdown(Section, Options)
     DropdownName.Font = Enum.Font.Unknown
     DropdownName.Text = "   " .. Dropdown.Name
     DropdownName.TextColor3 = Color3.fromRGB(249, 249, 249)
-    DropdownName.TextSize = 17.000
+    DropdownName.TextSize = 13.000
     DropdownName.TextXAlignment = Enum.TextXAlignment.Left
     
     -- Dropdown button
@@ -999,7 +1002,7 @@ function Library:CreateColorpicker(Section, Options)
     ColorpickerName.Font = Enum.Font.Unknown
     ColorpickerName.Text = "   " .. Colorpicker.Name
     ColorpickerName.TextColor3 = Color3.fromRGB(249, 249, 249)
-    ColorpickerName.TextSize = 17.000
+    ColorpickerName.TextSize = 13.000
     ColorpickerName.TextXAlignment = Enum.TextXAlignment.Left
     
     -- Color display button
@@ -1256,7 +1259,7 @@ function Library:CreateKeybind(Section, Options)
     KeybindName.Font = Enum.Font.Unknown
     KeybindName.Text = "   " .. Keybind.Name
     KeybindName.TextColor3 = Color3.fromRGB(249, 249, 249)
-    KeybindName.TextSize = 17.000
+    KeybindName.TextSize = 13.000
     KeybindName.TextXAlignment = Enum.TextXAlignment.Left
     
     -- Keybind input box
@@ -1371,7 +1374,7 @@ function Library:CreateButton(Section, Options)
     ButtonElement.Font = Enum.Font.Unknown
     ButtonElement.Text = Button.Name
     ButtonElement.TextColor3 = Color3.fromRGB(255, 255, 255)
-    ButtonElement.TextSize = 16.000
+    ButtonElement.TextSize = 13.000
     
     local ButtonCorner = Instance.new("UICorner")
     ButtonCorner.CornerRadius = UDim.new(0, 3)
@@ -1379,9 +1382,9 @@ function Library:CreateButton(Section, Options)
     
     -- Events
     self:Connection(ButtonElement.MouseButton1Click, function()
-        self:Tween(ButtonElement, {BackgroundColor3 = Color3.fromRGB(88, 103, 122)}, 0.1)
+        Library:Tween(ButtonElement, {BackgroundColor3 = Color3.fromRGB(88, 103, 122)}, 0.1):Play()
         task.wait(0.1)
-        self:Tween(ButtonElement, {BackgroundColor3 = Color3.fromRGB(71, 83, 99)}, 0.1)
+        Library:Tween(ButtonElement, {BackgroundColor3 = Color3.fromRGB(71, 83, 99)}, 0.1):Play()
         Button.Callback()
     end)
     
@@ -1422,7 +1425,7 @@ function Library:CreateTextbox(Section, Options)
     TextboxName.Font = Enum.Font.Unknown
     TextboxName.Text = "   " .. Textbox.Name
     TextboxName.TextColor3 = Color3.fromRGB(249, 249, 249)
-    TextboxName.TextSize = 17.000
+    TextboxName.TextSize = 13.000
     TextboxName.TextXAlignment = Enum.TextXAlignment.Left
     
     -- Textbox input
