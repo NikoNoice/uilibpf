@@ -857,40 +857,18 @@ function AmbienceUI:AddToggle(section, name, default, callback)
     local ToggleHead = Instance.new("Frame")
     ToggleHead.Name = "ToggleHead"
     ToggleHead.Parent = Toggle
-    ToggleHead.BackgroundColor3 = defaultToggle and Color3.fromRGB(88, 146, 255) or Color3.fromRGB(197, 197, 197)
+    ToggleHead.BackgroundColor3 = default and Color3.fromRGB(88, 146, 255) or Color3.fromRGB(197, 197, 197)
     ToggleHead.BorderColor3 = Color3.fromRGB(0, 0, 0)
     ToggleHead.BorderSizePixel = 0
-    ToggleHead.Position = defaultToggle and UDim2.new(0.5, 3, 0.142857149, 0) or UDim2.new(0.100000001, 0, 0.190476194, 0)
-    ToggleHead.Size = defaultToggle and UDim2.new(0, 15, 0, 15) or UDim2.new(0, 13, 0, 13)
+    ToggleHead.Position = default and UDim2.new(0.5, 3, 0.142857149, 0) or UDim2.new(0.100000001, 0, 0.190476194, 0)
+    ToggleHead.Size = default and UDim2.new(0, 15, 0, 15) or UDim2.new(0, 13, 0, 13)
     
     local HeadCorner = Instance.new("UICorner")
     HeadCorner.CornerRadius = UDim.new(1, 0)
     HeadCorner.Parent = ToggleHead
     
-    -- Keybind
-    local KeybindBind = Instance.new("TextBox")
-    KeybindBind.Name = "KeybindBind"
-    KeybindBind.Parent = ToggleButton
-    KeybindBind.BackgroundColor3 = Color3.fromRGB(71, 83, 99)
-    KeybindBind.BorderColor3 = Color3.fromRGB(0, 0, 0)
-    KeybindBind.BorderSizePixel = 0
-    KeybindBind.Position = UDim2.new(0.629629612, 0, 0.137931034, 0)
-    KeybindBind.Size = UDim2.new(0, 40, 0, 17)
-    KeybindBind.Font = Enum.Font.Unknown
-    KeybindBind.PlaceholderColor3 = Color3.fromRGB(178, 178, 178)
-    KeybindBind.Text = defaultKey and defaultKey.Name or ""
-    KeybindBind.TextColor3 = Color3.fromRGB(255, 255, 255)
-    KeybindBind.TextSize = 15.000
+    local toggled = default
     
-    local BindCorner = Instance.new("UICorner")
-    BindCorner.CornerRadius = UDim.new(0, 3)
-    BindCorner.Parent = KeybindBind
-    
-    local toggled = defaultToggle
-    local currentKey = defaultKey
-    local binding = false
-    
-    -- Toggle functionality
     local function toggleAction()
         toggled = not toggled
         
@@ -902,8 +880,8 @@ function AmbienceUI:AddToggle(section, name, default, callback)
             TweenService:Create(ToggleHead, TweenInfo.new(0.2), {BackgroundColor3 = Color3.fromRGB(197, 197, 197), Position = UDim2.new(0.100000001, 0, 0.190476194, 0), Size = UDim2.new(0, 13, 0, 13)}):Play()
         end
         
-        if toggleCallback then
-            toggleCallback(toggled)
+        if callback then
+            callback(toggled)
         end
     end
     
@@ -913,49 +891,13 @@ function AmbienceUI:AddToggle(section, name, default, callback)
         end
     end)
     
-    -- Keybind functionality
-    KeybindBind.Focused:Connect(function()
-        binding = true
-        KeybindBind.Text = "..."
-    end)
-    
-    KeybindBind.FocusLost:Connect(function()
-        binding = false
-        KeybindBind.Text = currentKey and currentKey.Name or ""
-    end)
-    
-    UserInputService.InputBegan:Connect(function(input)
-        if binding and input.UserInputType == Enum.UserInputType.Keyboard then
-            currentKey = input.KeyCode
-            KeybindBind.Text = currentKey.Name
-            KeybindBind:ReleaseFocus()
-            
-            if keyCallback then
-                keyCallback(currentKey)
-            end
-        elseif not binding and currentKey and input.KeyCode == currentKey then
-            toggleAction() -- Toggle on key press
-            if keyCallback then
-                keyCallback(currentKey, true) -- Second param indicates key was pressed
-            end
-        end
-    end)
-    
     section.UpdateSize()
     
     return {
         Toggle = toggled,
-        Key = currentKey,
         SetToggle = function(value)
             if value ~= toggled then
                 toggleAction()
-            end
-        end,
-        SetKey = function(key)
-            currentKey = key
-            KeybindBind.Text = key and key.Name or ""
-            if keyCallback then
-                keyCallback(key)
             end
         end
     }
@@ -1112,143 +1054,6 @@ function AmbienceUI:AddTextbox(section, name, placeholder, default, callback)
             TextboxInput.Text = text
             if callback then
                 callback(text)
-            end
-        end
-    }
-end
-
--- Notification system
-function AmbienceUI:Notify(title, text, duration)
-    duration = duration or 3
-    
-    if not self.ScreenGui then
-        warn("Notification error: Window not created")
-        return
-    end
-    
-    local Notification = Instance.new("Frame")
-    Notification.Name = "Notification"
-    Notification.Parent = self.ScreenGui
-    Notification.BackgroundColor3 = Color3.fromRGB(36, 42, 50)
-    Notification.BorderColor3 = Color3.fromRGB(0, 0, 0)
-    Notification.BorderSizePixel = 0
-    Notification.Position = UDim2.new(1, 0, 1, -10)
-    Notification.Size = UDim2.new(0, 300, 0, 80)
-    Notification.ZIndex = 100
-    
-    local NotifCorner = Instance.new("UICorner")
-    NotifCorner.CornerRadius = UDim.new(0, 6)
-    NotifCorner.Parent = Notification
-    
-    local NotifTitle = Instance.new("TextLabel")
-    NotifTitle.Parent = Notification
-    NotifTitle.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-    NotifTitle.BackgroundTransparency = 1.000
-    NotifTitle.BorderColor3 = Color3.fromRGB(0, 0, 0)
-    NotifTitle.BorderSizePixel = 0
-    NotifTitle.Position = UDim2.new(0.0333333333, 0, 0.0875, 0)
-    NotifTitle.Size = UDim2.new(0, 280, 0, 25)
-    NotifTitle.Font = Enum.Font.Unknown
-    NotifTitle.Text = title
-    NotifTitle.TextColor3 = Color3.fromRGB(255, 255, 255)
-    NotifTitle.TextSize = 18.000
-    NotifTitle.TextXAlignment = Enum.TextXAlignment.Left
-    
-    local NotifText = Instance.new("TextLabel")
-    NotifText.Parent = Notification
-    NotifText.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-    NotifText.BackgroundTransparency = 1.000
-    NotifText.BorderColor3 = Color3.fromRGB(0, 0, 0)
-    NotifText.BorderSizePixel = 0
-    NotifText.Position = UDim2.new(0.0333333333, 0, 0.4875, 0)
-    NotifText.Size = UDim2.new(0, 280, 0, 30)
-    NotifText.Font = Enum.Font.Unknown
-    NotifText.Text = text
-    NotifText.TextColor3 = Color3.fromRGB(191, 191, 191)
-    NotifText.TextSize = 14.000
-    NotifText.TextWrapped = true
-    NotifText.TextXAlignment = Enum.TextXAlignment.Left
-    NotifText.TextYAlignment = Enum.TextYAlignment.Top
-    
-    local AccentBar = Instance.new("Frame")
-    AccentBar.Parent = Notification
-    AccentBar.BackgroundColor3 = Color3.fromRGB(88, 146, 255)
-    AccentBar.BorderColor3 = Color3.fromRGB(0, 0, 0)
-    AccentBar.BorderSizePixel = 0
-    AccentBar.Position = UDim2.new(0, 0, 0, 0)
-    AccentBar.Size = UDim2.new(0, 3, 1, 0)
-    
-    local BarCorner = Instance.new("UICorner")
-    BarCorner.CornerRadius = UDim.new(0, 6)
-    BarCorner.Parent = AccentBar
-    
-    -- Find position for notification
-    local notifCount = 0
-    for _, child in ipairs(self.ScreenGui:GetChildren()) do
-        if child.Name == "Notification" and child ~= Notification then
-            notifCount = notifCount + 1
-        end
-    end
-    
-    local targetPos = UDim2.new(1, -310, 1, -10 - (90 * notifCount))
-    
-    -- Animate in
-    TweenService:Create(Notification, TweenInfo.new(0.3, Enum.EasingStyle.Quart), {Position = targetPos}):Play()
-    
-    -- Animate out after duration
-    task.wait(duration)
-    TweenService:Create(Notification, TweenInfo.new(0.3, Enum.EasingStyle.Quart), {Position = UDim2.new(1, 0, Notification.Position.Y.Scale, Notification.Position.Y.Offset)}):Play()
-    task.wait(0.3)
-    Notification:Destroy()
-end
-
-return AmbienceUI UDim.new(0, 10)
-    ToggleCorner.Parent = Toggle
-    
-    local ToggleHead = Instance.new("Frame")
-    ToggleHead.Name = "ToggleHead"
-    ToggleHead.Parent = Toggle
-    ToggleHead.BackgroundColor3 = default and Color3.fromRGB(88, 146, 255) or Color3.fromRGB(197, 197, 197)
-    ToggleHead.BorderColor3 = Color3.fromRGB(0, 0, 0)
-    ToggleHead.BorderSizePixel = 0
-    ToggleHead.Position = default and UDim2.new(0.5, 3, 0.142857149, 0) or UDim2.new(0.100000001, 0, 0.190476194, 0)
-    ToggleHead.Size = default and UDim2.new(0, 15, 0, 15) or UDim2.new(0, 13, 0, 13)
-    
-    local HeadCorner = Instance.new("UICorner")
-    HeadCorner.CornerRadius = UDim.new(1, 0)
-    HeadCorner.Parent = ToggleHead
-    
-    local toggled = default
-    
-    local function toggleAction()
-        toggled = not toggled
-        
-        if toggled then
-            TweenService:Create(Toggle, TweenInfo.new(0.2), {BackgroundColor3 = Color3.fromRGB(67, 111, 194), BackgroundTransparency = 0.250}):Play()
-            TweenService:Create(ToggleHead, TweenInfo.new(0.2), {BackgroundColor3 = Color3.fromRGB(88, 146, 255), Position = UDim2.new(0.5, 3, 0.142857149, 0), Size = UDim2.new(0, 15, 0, 15)}):Play()
-        else
-            TweenService:Create(Toggle, TweenInfo.new(0.2), {BackgroundColor3 = Color3.fromRGB(122, 122, 122), BackgroundTransparency = 0}):Play()
-            TweenService:Create(ToggleHead, TweenInfo.new(0.2), {BackgroundColor3 = Color3.fromRGB(197, 197, 197), Position = UDim2.new(0.100000001, 0, 0.190476194, 0), Size = UDim2.new(0, 13, 0, 13)}):Play()
-        end
-        
-        if callback then
-            callback(toggled)
-        end
-    end
-    
-    Toggle.InputBegan:Connect(function(input)
-        if input.UserInputType == Enum.UserInputType.MouseButton1 then
-            toggleAction()
-        end
-    end)
-    
-    section.UpdateSize()
-    
-    return {
-        Toggle = toggled,
-        SetToggle = function(value)
-            if value ~= toggled then
-                toggleAction()
             end
         end
     }
@@ -1990,7 +1795,6 @@ function AmbienceUI:AddKeybind(section, name, default, callback)
 end
 
 -- Create Toggle with Keybind
--- Complete AddToggleKeybind function and fix issues
 function AmbienceUI:AddToggleKeybind(section, name, defaultToggle, defaultKey, toggleCallback, keyCallback)
     section.ElementCount = section.ElementCount + 1
     
@@ -2140,275 +1944,91 @@ function AmbienceUI:AddToggleKeybind(section, name, defaultToggle, defaultKey, t
     }
 end
 
--- Fix AddToggle function (had undefined variables)
-function AmbienceUI:AddToggle(section, name, default, callback)
-    section.ElementCount = section.ElementCount + 1
+-- Notification system
+function AmbienceUI:Notify(title, text, duration)
+    duration = duration or 3
     
-    local ToggleButton = Instance.new("Frame")
-    ToggleButton.Name = "ToggleButton"
-    ToggleButton.Parent = section.FeatureHolder
-    ToggleButton.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-    ToggleButton.BackgroundTransparency = 1.000
-    ToggleButton.BorderColor3 = Color3.fromRGB(0, 0, 0)
-    ToggleButton.BorderSizePixel = 0
-    ToggleButton.Size = UDim2.new(0, 270, 0, 29)
+    if not self.ScreenGui then
+        warn("Notification error: Window not created")
+        return
+    end
     
-    local ToggleName = Instance.new("TextLabel")
-    ToggleName.Name = "ToggleName"
-    ToggleName.Parent = ToggleButton
-    ToggleName.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-    ToggleName.BackgroundTransparency = 1.000
-    ToggleName.BorderColor3 = Color3.fromRGB(0, 0, 0)
-    ToggleName.BorderSizePixel = 0
-    ToggleName.Position = UDim2.new(0, 0, -0.0828078687, 0)
-    ToggleName.Size = UDim2.new(0, 150, 0, 26)
-    ToggleName.Font = Enum.Font.Unknown
-    ToggleName.Text = "   " .. name
-    ToggleName.TextColor3 = Color3.fromRGB(249, 249, 249)
-    ToggleName.TextSize = 17.000
-    ToggleName.TextXAlignment = Enum.TextXAlignment.Left
+    local Notification = Instance.new("Frame")
+    Notification.Name = "Notification"
+    Notification.Parent = self.ScreenGui
+    Notification.BackgroundColor3 = Color3.fromRGB(36, 42, 50)
+    Notification.BorderColor3 = Color3.fromRGB(0, 0, 0)
+    Notification.BorderSizePixel = 0
+    Notification.Position = UDim2.new(1, 0, 1, -10)
+    Notification.Size = UDim2.new(0, 300, 0, 80)
+    Notification.ZIndex = 100
     
-    local Toggle = Instance.new("Frame")
-    Toggle.Name = "Toggle"
-    Toggle.Parent = ToggleButton
-    Toggle.BackgroundColor3 = default and Color3.fromRGB(67, 111, 194) or Color3.fromRGB(122, 122, 122)
-    Toggle.BackgroundTransparency = default and 0.250 or 0
-    Toggle.BorderColor3 = Color3.fromRGB(0, 0, 0)
-    Toggle.BorderSizePixel = 0
-    Toggle.Position = UDim2.new(0.814814806, 0, 0.068965517, 0)
-    Toggle.Size = UDim2.new(0, 40, 0, 21)
+    local NotifCorner = Instance.new("UICorner")
+    NotifCorner.CornerRadius = UDim.new(0, 6)
+    NotifCorner.Parent = Notification
     
-    local ToggleCorner = Instance.new("UICorner")
-    ToggleCorner.CornerRadius = UDim.new(0, 10)
-    ToggleCorner.Parent = Toggle
+    local NotifTitle = Instance.new("TextLabel")
+    NotifTitle.Parent = Notification
+    NotifTitle.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+    NotifTitle.BackgroundTransparency = 1.000
+    NotifTitle.BorderColor3 = Color3.fromRGB(0, 0, 0)
+    NotifTitle.BorderSizePixel = 0
+    NotifTitle.Position = UDim2.new(0.0333333333, 0, 0.0875, 0)
+    NotifTitle.Size = UDim2.new(0, 280, 0, 25)
+    NotifTitle.Font = Enum.Font.Unknown
+    NotifTitle.Text = title
+    NotifTitle.TextColor3 = Color3.fromRGB(255, 255, 255)
+    NotifTitle.TextSize = 18.000
+    NotifTitle.TextXAlignment = Enum.TextXAlignment.Left
     
-    local ToggleHead = Instance.new("Frame")
-    ToggleHead.Name = "ToggleHead"
-    ToggleHead.Parent = Toggle
-    ToggleHead.BackgroundColor3 = default and Color3.fromRGB(88, 146, 255) or Color3.fromRGB(197, 197, 197)
-    ToggleHead.BorderColor3 = Color3.fromRGB(0, 0, 0)
-    ToggleHead.BorderSizePixel = 0
-    ToggleHead.Position = default and UDim2.new(0.5, 3, 0.142857149, 0) or UDim2.new(0.100000001, 0, 0.190476194, 0)
-    ToggleHead.Size = default and UDim2.new(0, 15, 0, 15) or UDim2.new(0, 13, 0, 13)
+    local NotifText = Instance.new("TextLabel")
+    NotifText.Parent = Notification
+    NotifText.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+    NotifText.BackgroundTransparency = 1.000
+    NotifText.BorderColor3 = Color3.fromRGB(0, 0, 0)
+    NotifText.BorderSizePixel = 0
+    NotifText.Position = UDim2.new(0.0333333333, 0, 0.4875, 0)
+    NotifText.Size = UDim2.new(0, 280, 0, 30)
+    NotifText.Font = Enum.Font.Unknown
+    NotifText.Text = text
+    NotifText.TextColor3 = Color3.fromRGB(191, 191, 191)
+    NotifText.TextSize = 14.000
+    NotifText.TextWrapped = true
+    NotifText.TextXAlignment = Enum.TextXAlignment.Left
+    NotifText.TextYAlignment = Enum.TextYAlignment.Top
     
-    local HeadCorner = Instance.new("UICorner")
-    HeadCorner.CornerRadius = UDim.new(1, 0)
-    HeadCorner.Parent = ToggleHead
+    local AccentBar = Instance.new("Frame")
+    AccentBar.Parent = Notification
+    AccentBar.BackgroundColor3 = Color3.fromRGB(88, 146, 255)
+    AccentBar.BorderColor3 = Color3.fromRGB(0, 0, 0)
+    AccentBar.BorderSizePixel = 0
+    AccentBar.Position = UDim2.new(0, 0, 0, 0)
+    AccentBar.Size = UDim2.new(0, 3, 1, 0)
     
-    local toggled = default
+    local BarCorner = Instance.new("UICorner")
+    BarCorner.CornerRadius = UDim.new(0, 6)
+    BarCorner.Parent = AccentBar
     
-    local function toggleAction()
-        toggled = not toggled
-        
-        if toggled then
-            TweenService:Create(Toggle, TweenInfo.new(0.2), {BackgroundColor3 = Color3.fromRGB(67, 111, 194), BackgroundTransparency = 0.250}):Play()
-            TweenService:Create(ToggleHead, TweenInfo.new(0.2), {BackgroundColor3 = Color3.fromRGB(88, 146, 255), Position = UDim2.new(0.5, 3, 0.142857149, 0), Size = UDim2.new(0, 15, 0, 15)}):Play()
-        else
-            TweenService:Create(Toggle, TweenInfo.new(0.2), {BackgroundColor3 = Color3.fromRGB(122, 122, 122), BackgroundTransparency = 0}):Play()
-            TweenService:Create(ToggleHead, TweenInfo.new(0.2), {BackgroundColor3 = Color3.fromRGB(197, 197, 197), Position = UDim2.new(0.100000001, 0, 0.190476194, 0), Size = UDim2.new(0, 13, 0, 13)}):Play()
-        end
-        
-        if callback then
-            callback(toggled)
+    -- Find position for notification
+    local notifCount = 0
+    for _, child in ipairs(self.ScreenGui:GetChildren()) do
+        if child.Name == "Notification" and child ~= Notification then
+            notifCount = notifCount + 1
         end
     end
     
-    Toggle.InputBegan:Connect(function(input)
-        if input.UserInputType == Enum.UserInputType.MouseButton1 then
-            toggleAction()
-        end
+    local targetPos = UDim2.new(1, -310, 1, -10 - (90 * notifCount))
+    
+    -- Animate in
+    TweenService:Create(Notification, TweenInfo.new(0.3, Enum.EasingStyle.Quart), {Position = targetPos}):Play()
+    
+    -- Animate out after duration
+    spawn(function()
+        wait(duration)
+        TweenService:Create(Notification, TweenInfo.new(0.3, Enum.EasingStyle.Quart), {Position = UDim2.new(1, 0, Notification.Position.Y.Scale, Notification.Position.Y.Offset)}):Play()
+        wait(0.3)
+        Notification:Destroy()
     end)
-    
-    section.UpdateSize()
-    
-    return {
-        Toggle = toggled,
-        SetToggle = function(value)
-            if value ~= toggled then
-                toggleAction()
-            end
-        end
-    }
-end
-
--- Add missing ColorSequence for rainbow gradient in ColorSlider
-local function CreateRainbowGradient()
-    local ColorSliderGradient = Instance.new("UIGradient")
-    ColorSliderGradient.Color = ColorSequence.new{
-        ColorSequenceKeypoint.new(0, Color3.fromRGB(255, 0, 0)),
-        ColorSequenceKeypoint.new(0.17, Color3.fromRGB(255, 255, 0)),
-        ColorSequenceKeypoint.new(0.33, Color3.fromRGB(0, 255, 0)),
-        ColorSequenceKeypoint.new(0.5, Color3.fromRGB(0, 255, 255)),
-        ColorSequenceKeypoint.new(0.67, Color3.fromRGB(0, 0, 255)),
-        ColorSequenceKeypoint.new(0.83, Color3.fromRGB(255, 0, 255)),
-        ColorSequenceKeypoint.new(1, Color3.fromRGB(255, 0, 0))
-    }
-    ColorSliderGradient.Rotation = 90
-    return ColorSliderGradient
-end
-
--- Update SetupColorPicker to include the gradient
-function AmbienceUI:SetupColorPicker()
-    local colorData = {
-        hue = 0,
-        sat = 0,
-        val = 1,
-        currentColorpicker = nil,
-        callback = nil
-    }
-    
-    local ColorpickerFrame = self.ColorpickerFrame
-    local Colorpicker = ColorpickerFrame:FindFirstChild("Colorpicker")
-    local Hue = Colorpicker:FindFirstChild("Hue")
-    local Hue2 = Colorpicker:FindFirstChild("Hue2")
-    local ColorSlider = ColorpickerFrame:FindFirstChild("ColorSlider")
-    local HexBox = ColorpickerFrame:FindFirstChild("HexBox")
-    local CopyButton = ColorpickerFrame:FindFirstChild("CopyButton")
-    local PasteButton = ColorpickerFrame:FindFirstChild("PasteButton")
-    local ColorpickerName = ColorpickerFrame:FindFirstChild("ColorpickerName")
-    
-    -- Add rainbow gradient to ColorSlider
-    local gradient = CreateRainbowGradient()
-    gradient.Parent = ColorSlider
-    
-    -- Color picker cursor
-    local PickerCursor = Instance.new("Frame")
-    PickerCursor.Name = "PickerCursor"
-    PickerCursor.Parent = Colorpicker
-    PickerCursor.BackgroundColor3 = Color3.new(1, 1, 1)
-    PickerCursor.BorderSizePixel = 0
-    PickerCursor.Size = UDim2.new(0, 5, 0, 5)
-    PickerCursor.ZIndex = 15
-    
-    local CursorCorner = Instance.new("UICorner")
-    CursorCorner.CornerRadius = UDim.new(1, 0)
-    CursorCorner.Parent = PickerCursor
-    
-    -- Hue slider cursor
-    local HueCursor = Instance.new("Frame")
-    HueCursor.Name = "HueCursor"
-    HueCursor.Parent = ColorSlider
-    HueCursor.BackgroundColor3 = Color3.new(1, 1, 1)
-    HueCursor.BorderSizePixel = 0
-    HueCursor.Size = UDim2.new(1, 0, 0, 2)
-    HueCursor.ZIndex = 15
-    
-    local function updateColor()
-        local color = HSVToRGB(colorData.hue, colorData.sat, colorData.val)
-        Hue.ImageColor3 = HSVToRGB(colorData.hue, 1, 1)
-        
-        if colorData.currentColorpicker then
-            colorData.currentColorpicker.BackgroundColor3 = color
-        end
-        
-        HexBox.Text = ColorToHex(color)
-        
-        if colorData.callback then
-            colorData.callback(color)
-        end
-    end
-    
-    -- Saturation/Value picking
-    local pickingColor = false
-    
-    Colorpicker.InputBegan:Connect(function(input)
-        if input.UserInputType == Enum.UserInputType.MouseButton1 then
-            pickingColor = true
-            
-            local connection
-            connection = RunService.RenderStepped:Connect(function()
-                if pickingColor then
-                    local mousePos = UserInputService:GetMouseLocation()
-                    local colorPos = Colorpicker.AbsolutePosition
-                    local colorSize = Colorpicker.AbsoluteSize
-                    
-                    local x = math.clamp((mousePos.X - colorPos.X) / colorSize.X, 0, 1)
-                    local y = math.clamp((mousePos.Y - colorPos.Y) / colorSize.Y, 0, 1)
-                    
-                    colorData.sat = x
-                    colorData.val = 1 - y
-                    
-                    PickerCursor.Position = UDim2.new(x, -2.5, y, -2.5)
-                    updateColor()
-                else
-                    connection:Disconnect()
-                end
-            end)
-        end
-    end)
-    
-    -- Hue picking
-    local pickingHue = false
-    
-    ColorSlider.InputBegan:Connect(function(input)
-        if input.UserInputType == Enum.UserInputType.MouseButton1 then
-            pickingHue = true
-            
-            local connection
-            connection = RunService.RenderStepped:Connect(function()
-                if pickingHue then
-                    local mousePos = UserInputService:GetMouseLocation()
-                    local sliderPos = ColorSlider.AbsolutePosition
-                    local sliderSize = ColorSlider.AbsoluteSize
-                    
-                    local y = math.clamp((mousePos.Y - sliderPos.Y) / sliderSize.Y, 0, 1)
-                    colorData.hue = y
-                    
-                    HueCursor.Position = UDim2.new(0, 0, y, -1)
-                    updateColor()
-                else
-                    connection:Disconnect()
-                end
-            end)
-        end
-    end)
-    
-    UserInputService.InputEnded:Connect(function(input)
-        if input.UserInputType == Enum.UserInputType.MouseButton1 then
-            pickingColor = false
-            pickingHue = false
-        end
-    end)
-    
-    -- Hex input
-    HexBox.FocusLost:Connect(function()
-        local color = HexToColor(HexBox.Text)
-        local h, s, v = RGBToHSV(color)
-        colorData.hue = h
-        colorData.sat = s
-        colorData.val = v
-        
-        PickerCursor.Position = UDim2.new(s, -2.5, 1 - v, -2.5)
-        HueCursor.Position = UDim2.new(0, 0, h, -1)
-        updateColor()
-    end)
-    
-    -- Copy/Paste
-    CopyButton.MouseButton1Click:Connect(function()
-        self.ClipboardColor = HSVToRGB(colorData.hue, colorData.sat, colorData.val)
-        local hex = ColorToHex(self.ClipboardColor)
-        local success = pcall(function()
-            setclipboard(hex)
-        end)
-        if not success then
-            warn("Clipboard not supported")
-        end
-    end)
-    
-    PasteButton.MouseButton1Click:Connect(function()
-        if self.ClipboardColor then
-            local h, s, v = RGBToHSV(self.ClipboardColor)
-            colorData.hue = h
-            colorData.sat = s
-            colorData.val = v
-            
-            PickerCursor.Position = UDim2.new(s, -2.5, 1 - v, -2.5)
-            HueCursor.Position = UDim2.new(0, 0, h, -1)
-            updateColor()
-        end
-    end)
-    
-    self.ColorpickerData = colorData
 end
 
 return AmbienceUI
