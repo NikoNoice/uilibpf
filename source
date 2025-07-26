@@ -104,7 +104,7 @@ function AmbienceUI:CreateWindow()
     TitleLabel.BorderColor3 = Color3.fromRGB(0, 0, 0)
     TitleLabel.BorderSizePixel = 0
     TitleLabel.Size = UDim2.new(0, 200, 0, 25)
-    TitleLabel.Font = Enum.Font.NunitoBold
+    TitleLabel.Font = Enum.Font.Nunito
     TitleLabel.Text = "Ambience"
     TitleLabel.TextColor3 = Color3.fromRGB(191, 191, 191)
     TitleLabel.TextSize = 22.000
@@ -154,7 +154,7 @@ function AmbienceUI:CreateWindow()
     ColorpickerName.BorderSizePixel = 0
     ColorpickerName.Position = UDim2.new(0.0275862068, 0, 0.0176470596, 0)
     ColorpickerName.Size = UDim2.new(0, 237, 0, 23)
-    ColorpickerName.Font = Enum.Font.NunitoBold
+    ColorpickerName.Font = Enum.Font.Nunito
     ColorpickerName.Text = "Colorpicker name"
     ColorpickerName.TextColor3 = Color3.fromRGB(255, 255, 255)
     ColorpickerName.TextSize = 17.000
@@ -245,7 +245,7 @@ function AmbienceUI:CreateWindow()
     HexBox.BorderSizePixel = 0
     HexBox.Position = UDim2.new(0.0275862068, 0, 0.815808833, 0)
     HexBox.Size = UDim2.new(0, 276, 0, 23)
-    HexBox.Font = Enum.Font.NunitoBold
+    HexBox.Font = Enum.Font.Nunito
     HexBox.PlaceholderText = "FF0000"
     HexBox.Text = ""
     HexBox.TextColor3 = Color3.fromRGB(255, 255, 255)
@@ -265,7 +265,7 @@ function AmbienceUI:CreateWindow()
     CopyButton.BorderSizePixel = 0
     CopyButton.Position = UDim2.new(0.0275862068, 0, 0.899999976, 0)
     CopyButton.Size = UDim2.new(0, 130, 0, 23)
-    CopyButton.Font = Enum.Font.NunitoBold
+    CopyButton.Font = Enum.Font.Nunito
     CopyButton.Text = "Copy"
     CopyButton.TextColor3 = Color3.fromRGB(0, 0, 0)
     CopyButton.TextSize = 15.000
@@ -283,7 +283,7 @@ function AmbienceUI:CreateWindow()
     PasteButton.BorderSizePixel = 0
     PasteButton.Position = UDim2.new(0.53103447, 0, 0.899999976, 0)
     PasteButton.Size = UDim2.new(0, 130, 0, 23)
-    PasteButton.Font = Enum.Font.NunitoBold
+    PasteButton.Font = Enum.Font.Nunito
     PasteButton.Text = "Paste"
     PasteButton.TextColor3 = Color3.fromRGB(0, 0, 0)
     PasteButton.TextSize = 15.000
@@ -624,7 +624,7 @@ function AmbienceUI:CreateTab(name, icon)
     ButtonName.BorderColor3 = Color3.fromRGB(0, 0, 0)
     ButtonName.BorderSizePixel = 0
     ButtonName.Size = UDim2.new(0, 152, 0, 30)
-    ButtonName.Font = Enum.Font.NunitoBold
+    ButtonName.Font = Enum.Font.Nunito
     ButtonName.Text = "             " .. name
     ButtonName.TextColor3 = Color3.fromRGB(255, 255, 255)
     ButtonName.TextSize = 16.000
@@ -655,7 +655,7 @@ function AmbienceUI:CreateTab(name, icon)
     TabName.BorderSizePixel = 0
     TabName.Position = UDim2.new(-0.0102056051, 0, -0.00825559255 + (0.126 * (tabIndex - 1)), 0)
     TabName.Size = UDim2.new(0, 150, 0, 32)
-    TabName.Font = Enum.Font.NunitoBold
+    TabName.Font = Enum.Font.Nunito
     TabName.Text = name:upper()
     TabName.TextColor3 = Color3.fromRGB(158, 158, 158)
     TabName.TextSize = 11.000
@@ -763,7 +763,7 @@ function AmbienceUI:CreateSection(tab, title, side)
     PageTitle.BorderColor3 = Color3.fromRGB(0, 0, 0)
     PageTitle.BorderSizePixel = 0
     PageTitle.Size = UDim2.new(0, 270, 0, 28)
-    PageTitle.Font = Enum.Font.NunitoBold
+    PageTitle.Font = Enum.Font.Nunito
     PageTitle.Text = "   " .. title
     PageTitle.TextColor3 = Color3.fromRGB(255, 255, 255)
     PageTitle.TextSize = 17.000
@@ -834,7 +834,7 @@ function AmbienceUI:AddToggle(section, name, default, callback)
     ToggleName.BorderSizePixel = 0
     ToggleName.Position = UDim2.new(0, 0, -0.0828078687, 0)
     ToggleName.Size = UDim2.new(0, 150, 0, 26)
-    ToggleName.Font = Enum.Font.NunitoBold
+    ToggleName.Font = Enum.Font.Nunito
     ToggleName.Text = "   " .. name
     ToggleName.TextColor3 = Color3.fromRGB(249, 249, 249)
     ToggleName.TextSize = 17.000
@@ -924,7 +924,7 @@ function AmbienceUI:AddLabel(section, text)
     LabelText.BorderColor3 = Color3.fromRGB(0, 0, 0)
     LabelText.BorderSizePixel = 0
     LabelText.Size = UDim2.new(1, 0, 1, 0)
-    LabelText.Font = Enum.Font.NunitoBold
+    LabelText.Font = Enum.Font.Nunito
     LabelText.Text = "   " .. text
     LabelText.TextColor3 = Color3.fromRGB(158, 158, 158)
     LabelText.TextSize = 15.000
@@ -960,7 +960,7 @@ function AmbienceUI:AddButton(section, name, callback)
     ButtonInner.BorderSizePixel = 0
     ButtonInner.Position = UDim2.new(0.0370370373, 0, 0, 0)
     ButtonInner.Size = UDim2.new(0, 250, 0, 24)
-    ButtonInner.Font = Enum.Font.NunitoBold
+    ButtonInner.Font = Enum.Font.Nunito
     ButtonInner.Text = name
     ButtonInner.TextColor3 = Color3.fromRGB(255, 255, 255)
     ButtonInner.TextSize = 16.000
@@ -1013,7 +1013,7 @@ function AmbienceUI:AddTextbox(section, name, placeholder, default, callback)
     TextboxName.BorderSizePixel = 0
     TextboxName.Position = UDim2.new(0, 0, -0.0483251102, 0)
     TextboxName.Size = UDim2.new(0, 150, 0, 26)
-    TextboxName.Font = Enum.Font.NunitoBold
+    TextboxName.Font = Enum.Font.Nunito
     TextboxName.Text = "   " .. name
     TextboxName.TextColor3 = Color3.fromRGB(249, 249, 249)
     TextboxName.TextSize = 17.000
@@ -1027,7 +1027,7 @@ function AmbienceUI:AddTextbox(section, name, placeholder, default, callback)
     TextboxInput.BorderSizePixel = 0
     TextboxInput.Position = UDim2.new(0.555555582, 0, -0.00715795066, 0)
     TextboxInput.Size = UDim2.new(0, 114, 0, 24)
-    TextboxInput.Font = Enum.Font.NunitoBold
+    TextboxInput.Font = Enum.Font.Nunito
     TextboxInput.PlaceholderColor3 = Color3.fromRGB(178, 178, 178)
     TextboxInput.PlaceholderText = placeholder or ""
     TextboxInput.Text = default or ""
@@ -1081,7 +1081,7 @@ function AmbienceUI:AddToggleColorpicker(section, name, defaultToggle, defaultCo
     ToggleName.BorderSizePixel = 0
     ToggleName.Position = UDim2.new(0, 0, -0.0483251102, 0)
     ToggleName.Size = UDim2.new(0, 150, 0, 26)
-    ToggleName.Font = Enum.Font.NunitoBold
+    ToggleName.Font = Enum.Font.Nunito
     ToggleName.Text = "   " .. name
     ToggleName.TextColor3 = Color3.fromRGB(249, 249, 249)
     ToggleName.TextSize = 17.000
@@ -1238,7 +1238,7 @@ function AmbienceUI:AddToggleTwoColorpickers(section, name, defaultToggle, defau
     ToggleName.BorderSizePixel = 0
     ToggleName.Position = UDim2.new(0, 0, -0.0483251102, 0)
     ToggleName.Size = UDim2.new(0, 150, 0, 26)
-    ToggleName.Font = Enum.Font.NunitoBold
+    ToggleName.Font = Enum.Font.Nunito
     ToggleName.Text = "   " .. name
     ToggleName.TextColor3 = Color3.fromRGB(249, 249, 249)
     ToggleName.TextSize = 17.000
@@ -1415,7 +1415,7 @@ function AmbienceUI:AddSlider(section, name, min, max, default, callback)
     SliderName.BorderSizePixel = 0
     SliderName.Position = UDim2.new(0, 0, -0.0483251102, 0)
     SliderName.Size = UDim2.new(0, 150, 0, 26)
-    SliderName.Font = Enum.Font.NunitoBold
+    SliderName.Font = Enum.Font.Nunito
     SliderName.Text = "   " .. name
     SliderName.TextColor3 = Color3.fromRGB(249, 249, 249)
     SliderName.TextSize = 17.000
@@ -1461,7 +1461,7 @@ function AmbienceUI:AddSlider(section, name, min, max, default, callback)
     Value.BorderSizePixel = 0
     Value.Position = UDim2.new(0.851851881, 0, 0.0551231652, 0)
     Value.Size = UDim2.new(0, 30, 0, 20)
-    Value.Font = Enum.Font.NunitoBold
+    Value.Font = Enum.Font.Nunito
     Value.PlaceholderColor3 = Color3.fromRGB(189, 189, 189)
     Value.PlaceholderText = "0%"
     Value.Text = tostring(default) .. "%"
@@ -1554,7 +1554,7 @@ function AmbienceUI:AddDropdown(section, name, options, default, callback)
     DropdownName.BorderSizePixel = 0
     DropdownName.Position = UDim2.new(0, 0, -0.0483251102, 0)
     DropdownName.Size = UDim2.new(0, 150, 0, 26)
-    DropdownName.Font = Enum.Font.NunitoBold
+    DropdownName.Font = Enum.Font.Nunito
     DropdownName.Text = "   " .. name
     DropdownName.TextColor3 = Color3.fromRGB(249, 249, 249)
     DropdownName.TextSize = 17.000
@@ -1581,7 +1581,7 @@ function AmbienceUI:AddDropdown(section, name, options, default, callback)
     AppliedOption.BorderColor3 = Color3.fromRGB(0, 0, 0)
     AppliedOption.BorderSizePixel = 0
     AppliedOption.Size = UDim2.new(0, 114, 0, 24)
-    AppliedOption.Font = Enum.Font.NunitoBold
+    AppliedOption.Font = Enum.Font.Nunito
     AppliedOption.Text = "  " .. (default or "Select")
     AppliedOption.TextColor3 = Color3.fromRGB(253, 253, 253)
     AppliedOption.TextSize = 16.000
@@ -1645,7 +1645,7 @@ function AmbienceUI:AddDropdown(section, name, options, default, callback)
         OptionName.BorderSizePixel = 0
         OptionName.Position = UDim2.new(-0.00980392192, 0, 0, 0)
         OptionName.Size = UDim2.new(0, 104, 0, 19)
-        OptionName.Font = Enum.Font.NunitoBold
+        OptionName.Font = Enum.Font.Nunito
         OptionName.Text = "  " .. option
         OptionName.TextColor3 = Color3.fromRGB(255, 255, 255)
         OptionName.TextSize = 15.000
@@ -1727,7 +1727,7 @@ function AmbienceUI:AddKeybind(section, name, default, callback)
     ToggleName.BorderSizePixel = 0
     ToggleName.Position = UDim2.new(0, 0, -0.0483251102, 0)
     ToggleName.Size = UDim2.new(0, 150, 0, 26)
-    ToggleName.Font = Enum.Font.NunitoBold
+    ToggleName.Font = Enum.Font.Nunito
     ToggleName.Text = "   " .. name
     ToggleName.TextColor3 = Color3.fromRGB(249, 249, 249)
     ToggleName.TextSize = 17.000
@@ -1741,7 +1741,7 @@ function AmbienceUI:AddKeybind(section, name, default, callback)
     KeybindBind.BorderSizePixel = 0
     KeybindBind.Position = UDim2.new(0.629629612, 0, 0.137931034, 0)
     KeybindBind.Size = UDim2.new(0, 40, 0, 17)
-    KeybindBind.Font = Enum.Font.NunitoBold
+    KeybindBind.Font = Enum.Font.Nunito
     KeybindBind.PlaceholderColor3 = Color3.fromRGB(178, 178, 178)
     KeybindBind.Text = default and default.Name or ""
     KeybindBind.TextColor3 = Color3.fromRGB(255, 255, 255)
@@ -1816,7 +1816,7 @@ function AmbienceUI:AddToggleKeybind(section, name, defaultToggle, defaultKey, t
     ToggleName.BorderSizePixel = 0
     ToggleName.Position = UDim2.new(0, 0, -0.0483251102, 0)
     ToggleName.Size = UDim2.new(0, 150, 0, 26)
-    ToggleName.Font = Enum.Font.NunitoBold
+    ToggleName.Font = Enum.Font.Nunito
     ToggleName.Text = "   " .. name
     ToggleName.TextColor3 = Color3.fromRGB(249, 249, 249)
     ToggleName.TextSize = 17.000
@@ -1859,7 +1859,7 @@ function AmbienceUI:AddToggleKeybind(section, name, defaultToggle, defaultKey, t
     KeybindBind.BorderSizePixel = 0
     KeybindBind.Position = UDim2.new(0.629629612, 0, 0.137931034, 0)
     KeybindBind.Size = UDim2.new(0, 40, 0, 17)
-    KeybindBind.Font = Enum.Font.NunitoBold
+    KeybindBind.Font = Enum.Font.Nunito
     KeybindBind.PlaceholderColor3 = Color3.fromRGB(178, 178, 178)
     KeybindBind.Text = defaultKey and defaultKey.Name or ""
     KeybindBind.TextColor3 = Color3.fromRGB(255, 255, 255)
@@ -1975,7 +1975,7 @@ function AmbienceUI:Notify(title, text, duration)
     NotifTitle.BorderSizePixel = 0
     NotifTitle.Position = UDim2.new(0.0333333333, 0, 0.0875, 0)
     NotifTitle.Size = UDim2.new(0, 280, 0, 25)
-    NotifTitle.Font = Enum.Font.NunitoBold
+    NotifTitle.Font = Enum.Font.Nunito
     NotifTitle.Text = title
     NotifTitle.TextColor3 = Color3.fromRGB(255, 255, 255)
     NotifTitle.TextSize = 18.000
@@ -1989,7 +1989,7 @@ function AmbienceUI:Notify(title, text, duration)
     NotifText.BorderSizePixel = 0
     NotifText.Position = UDim2.new(0.0333333333, 0, 0.4875, 0)
     NotifText.Size = UDim2.new(0, 280, 0, 30)
-    NotifText.Font = Enum.Font.NunitoBold
+    NotifText.Font = Enum.Font.Nunito
     NotifText.Text = text
     NotifText.TextColor3 = Color3.fromRGB(191, 191, 191)
     NotifText.TextSize = 14.000
