@@ -784,7 +784,13 @@ function AmbienceUI:SetupColorPicker()
     -- Copy/Paste
     CopyButton.MouseButton1Click:Connect(function()
         self.ClipboardColor = HSVToRGB(colorData.hue, colorData.sat, colorData.val)
-        setclipboard(ColorToHex(self.ClipboardColor))
+        local hex = ColorToHex(self.ClipboardColor)
+        local success = pcall(function()
+            setclipboard(hex)
+        end)
+        if not success then
+            warn("Clipboard not supported")
+        end
     end)
     
     PasteButton.MouseButton1Click:Connect(function()
@@ -801,7 +807,6 @@ function AmbienceUI:SetupColorPicker()
     end)
     
     self.ColorpickerData = colorData
-    self:SetupColorPicker() -- Setup only once
 end
 
 -- Create Toggle
@@ -1112,6 +1117,11 @@ end
 -- Notification system
 function AmbienceUI:Notify(title, text, duration)
     duration = duration or 3
+    
+    if not self.ScreenGui then
+        warn("Notification error: Window not created")
+        return
+    end
     
     local Notification = Instance.new("Frame")
     Notification.Name = "Notification"
